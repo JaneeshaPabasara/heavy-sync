@@ -6,7 +6,6 @@ import AddPartModal from "../components/parts/add-part-modal.jsx";
 import EditPartModal from "../components/parts/edit-part-modal.jsx";
 import {Button} from "../components/ui/button.jsx";
 import {Plus} from "lucide-react";
-import {PartWithDetails} from "@shared/schema.js";
 
 export default function Inventory() {
     const [showAddModal, setShowAddModal] = useState(false);

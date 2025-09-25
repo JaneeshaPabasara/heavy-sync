@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader } from "../components/ui/card.jsx";
 import { Badge } from "../components/ui/badge.jsx";
 import { Button } from "../components/ui/button.jsx";
 import { ArrowUp, ArrowDown, Plus, Package, Calendar } from "lucide-react";
-import { MovementWithPart } from "@shared/schema.js";
 import { format } from "date-fns";
 
 export default function Movements() {

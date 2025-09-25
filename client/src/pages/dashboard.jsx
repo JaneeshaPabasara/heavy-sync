@@ -31,7 +31,6 @@ import {
     Bell
 } from "lucide-react";
 import {useState, useMemo} from "react";
-import {PartWithDetails} from "@shared/schema.js";
 
 export default function Dashboard() {
     const [showAddModal, setShowAddModal] = useState(false);
@@ -39,7 +38,7 @@ export default function Dashboard() {
     const [showReportModal, setShowReportModal] = useState(false);
     const [showStockInModal, setShowStockInModal] = useState(false);
     const [showStockOutModal, setShowStockOutModal] = useState(false);
-    const [selectedPart, setSelectedPart] = useState < PartWithDetails | null > (null);
+    const [selectedPart, setSelectedPart] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
     const {toast} = useToast();
 

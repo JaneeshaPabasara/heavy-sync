@@ -5,15 +5,14 @@ import { Card, CardContent, CardHeader } from "../ui/card.jsx";
 import { Badge } from "../ui/badge.jsx";
 import { FileText, Download, Calendar, BarChart3 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { PartWithDetails } from "@shared/schema.js";
-import { generateInventoryPDF } from "../../lib/pdf-generator.js";
-import { exportToCSV } from "../../lib/csv-exporter.js";
+import { generateInventoryPDF } from "@/lib/pdf-generator.js";
+import { exportToCSV } from "@/lib/csv-exporter.js";
 
 
 export default function ReportSelectorModal({ open, onOpenChange }) {
-  const [selectedReportType, setSelectedReportType] = useState<string | null>(null);
+  const [selectedReportType, setSelectedReportType] = useState(null);
 
-  const { data: parts = [] } = useQuery<PartWithDetails>({
+  const { data: parts = [] } = useQuery({
     queryKey: ['/api/parts'],
     enabled: open,
   });

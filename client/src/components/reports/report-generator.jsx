@@ -5,24 +5,22 @@ import { Button } from "../ui/button.jsx";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select.jsx";
 import { Label } from "../ui/label.jsx";
 import { Card, CardContent } from "../ui/card.jsx";
-import { useToast } from "../../hooks/use-toast.js";
-import { generatePDF } from "../../lib/pdf-generator.js";
-import { exportToCSV } from "../../lib/csv-exporter.js";
+import { useToast } from "@/hooks/use-toast.js";
+import { generatePDF } from "@/lib/pdf-generator.js";
+import { exportToCSV } from "@/lib/csv-exporter.js";
 import { FileText, Download, Calendar } from "lucide-react";
-import { PartWithDetails } from "@shared/schema.js";
-
 
 export default function ReportGenerator({ open, onOpenChange }) {
-  const [reportType, setReportType] = useState<string>("");
+  const [reportType, setReportType] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const { toast } = useToast();
 
-  const { data: parts } = useQuery<PartWithDetails>({
+  const { data: parts } = useQuery({
     queryKey: ["/api/parts"],
     enabled: open,
   });
 
-  const { data: lowStockParts } = useQuery<PartWithDetails>({
+  const { data: lowStockParts } = useQuery({
     queryKey: ["/api/parts/low-stock"],
     enabled: open,
   });

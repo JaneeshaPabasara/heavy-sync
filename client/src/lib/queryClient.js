@@ -1,4 +1,4 @@
-import { QueryClient, QueryFunction } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";  // Remove QueryFunction import
 
 async function throwIfResNotOk(res) {
     if (!res.ok) {

@@ -18,11 +18,6 @@ export function log(message, source = "express") {
 }
 
 export async function setupVite(app, server) {
-    const serverOptions = {
-        middlewareMode: true,
-        hmr: {server},
-        allowedHosts: true,
-    };
     const vite = await createViteServer({
         ...viteConfig,
         configFile: false,
@@ -33,31 +28,50 @@ export async function setupVite(app, server) {
                 process.exit(1);
             },
         },
-        server: serverOptions,
+        server: {
+            middlewareMode: true,
+            hmr: {server},
+        },
         appType: "custom",
     });
+
+    // Use vite's connect instance as middleware
     app.use(vite.middlewares);
-    app.use("*", async (req, res, next) => {
-        const url = req.originalUrl;
-        try {
-            const clientTemplate = path.resolve(
-                import.meta.dirname,
-                "..",
-                "client",
-                "index.html",
-            );
-            // always reload the index.html file from disk incase it changes
-            let template = await fs.promises.readFile(clientTemplate, "utf-8");
-            template = template.replace(
-                `src="/src/main.tsx"`,
-                `src="/src/main.tsx?v=${nanoid()}"`,
-            );
-            const page = await vite.transformIndexHtml(url, template);
-            res.status(200).set({"Content-Type": "text/html"}).end(page);
-        } catch (e) {
-            vite.ssrFixStacktrace(e);
-            next(e);
+
+    // Only handle non-asset requests for HTML
+    app.use((req, res, next) => {
+        // Skip API routes and static assets
+        if (req.path.startsWith('/api') ||
+            req.path.startsWith('/@') ||
+            req.path.startsWith('/node_modules') ||
+            req.path.includes('.')) {
+            return next();
         }
+
+        // Handle SPA routes by serving index.html
+        (async () => {
+            try {
+                const url = req.originalUrl;
+                const clientTemplate = path.resolve(
+                    import.meta.dirname,
+                    "..",
+                    "client",
+                    "index.html",
+                );
+
+                let template = await fs.promises.readFile(clientTemplate, "utf-8");
+                template = template.replace(
+                    `src="/src/main.jsx"`,
+                    `src="/src/main.jsx?v=${nanoid()}"`,
+                );
+
+                const page = await vite.transformIndexHtml(url, template);
+                res.status(200).set({"Content-Type": "text/html"}).end(page);
+            } catch (e) {
+                vite.ssrFixStacktrace(e);
+                next(e);
+            }
+        })();
     });
 }
 
@@ -69,8 +83,12 @@ export function serveStatic(app) {
         );
     }
     app.use(express.static(distPath));
-    // fall through to index.html if the file doesn't exist
-    app.use("*", (_req, res) => {
+
+    app.use((req, res, next) => {
+        if (req.path.startsWith('/api') || res.headersSent) {
+            return next();
+        }
+
         res.sendFile(path.resolve(distPath, "index.html"));
     });
 }

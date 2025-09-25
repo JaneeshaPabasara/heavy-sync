@@ -4,7 +4,6 @@ import { Card, CardContent } from "../ui/card.jsx";
 import { Skeleton } from "../ui/skeleton.jsx";
 import { Input } from "../ui/input.jsx";
 import { Edit, Trash2, Search } from "lucide-react";
-import { PartWithDetails } from "@shared/schema.js";
 import { useState, useMemo } from "react";
 
 

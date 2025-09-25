@@ -7,7 +7,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useToast } from "../../hooks/use-toast.js";
 import { queryClient, apiRequest } from "../../lib/queryClient.js";
-import { PartWithDetails, InsertMovement } from "@shared/schema.js";
 import { ArrowUp, ArrowDown } from "lucide-react";
 
 export default function StockMovementModal({ open, onOpenChange, type }) {
@@ -16,7 +15,7 @@ export default function StockMovementModal({ open, onOpenChange, type }) {
   const [reason, setReason] = useState("");
   const { toast } = useToast();
 
-  const { data: parts = [] } = useQuery<PartWithDetails>({
+  const { data: parts = [] } = useQuery({
     queryKey: ['/api/parts'],
     enabled: open,
   });

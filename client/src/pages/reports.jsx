@@ -7,7 +7,6 @@ import {Button} from "../components/ui/button.jsx";
 import {Input} from "../components/ui/input.jsx";
 import {Label} from "../components/ui/label.jsx";
 import {FileText, Download, Calendar, BarChart3, Clock} from "lucide-react";
-import {PartWithDetails, Report, InsertReport} from "@shared/schema.js";
 import {apiRequest, queryClient} from "../lib/queryClient.js";
 import {
     generatePDF,

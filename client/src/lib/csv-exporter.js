@@ -1,5 +1,3 @@
-import {PartWithDetails} from '@shared/schema.js';
-
 // General CSV export function for parts
 export function exportToCSV(data, filename) {
     const headers = [
