@@ -11,20 +11,36 @@ import { useState, useMemo } from "react";
 export default function PartsTable({ parts, isLoading, onEdit, onDelete }) {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredParts = useMemo(() => {
+ const filteredParts = useMemo(() => {
+    if (!parts || !Array.isArray(parts)) return [];
     if (!searchTerm) return parts;
     
     const search = searchTerm.toLowerCase();
-    return parts.filter(part => 
-      part.name.toLowerCase().includes(search) ||
-      part.partNumber.toLowerCase().includes(search) ||
-      part.id.toLowerCase().includes(search) ||
-      (part.description && part.description.toLowerCase().includes(search)) ||
-      (part.category && part.category.name.toLowerCase().includes(search)) ||
-      (part.supplier && part.supplier.name.toLowerCase().includes(search)) ||
-      (part.location && part.location.toLowerCase().includes(search)) ||
-      part.stockStatus.toLowerCase().includes(search)
-    );
+    return parts.filter(part => {
+     try {
+        // Safely check each field with null/undefined protection
+        const partNumber = (part.partNumber || '').toLowerCase();
+        const name = (part.name || '').toLowerCase();
+        const id = (part.id || part._id || '').toString().toLowerCase();
+        const description = (part.description || '').toLowerCase();
+        const categoryName = (part.category?.name || '').toLowerCase();
+        const supplierName = (part.supplier?.name || '').toLowerCase();
+        const location = (part.location || '').toLowerCase();
+        const stockStatus = (part.stockStatus || '').toLowerCase();
+
+        return partNumber.includes(search) ||
+               name.includes(search) ||
+               id.includes(search) ||
+               description.includes(search) ||
+               categoryName.includes(search) ||
+               supplierName.includes(search) ||
+               location.includes(search) ||
+               stockStatus.includes(search);
+      } catch (error) {
+        console.error('Error filtering part:', part, error);
+        return false;
+      }
+    });
   }, [parts, searchTerm]);
 
   const getStockBadgeVariant = (stockStatus) => {
