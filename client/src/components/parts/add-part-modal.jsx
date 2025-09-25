@@ -33,7 +33,7 @@ export default function AddPartModal({open, onOpenChange}) {
             supplierId: undefined,
             quantity: 0,
             minimumStock: 0,
-            unitPrice: "0.00",
+            unitPrice: 0,
             location: null,
         },
     });
@@ -207,6 +207,7 @@ export default function AddPartModal({open, onOpenChange}) {
                                                 min="0"
                                                 placeholder="0.00"
                                                 {...field}
+                                                onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
                                                 data-testid="input-unit-price"
                                             />
                                         </FormControl>

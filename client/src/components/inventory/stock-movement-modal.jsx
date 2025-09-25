@@ -117,7 +117,7 @@ export default function StockMovementModal({ open, onOpenChange, type }) {
               </SelectTrigger>
               <SelectContent>
                 {parts.map((part) => (
-                  <SelectItem key={part.id} value={part.id}>
+                  <SelectItem key={part._id} value={part._id}>
                     {part.name} - {part.partNumber} (Current: {part.quantity})
                   </SelectItem>
                 ))}
