@@ -115,7 +115,7 @@ export default function AddPartModal({open, onOpenChange}) {
                                                     <div>Error loading categories</div>
                                                 ) : categories?.length ? (
                                                     categories?.map((category) => (
-                                                        <SelectItem key={category.id} value={category.id}>
+                                                        <SelectItem key={category._id} value={category._id}>
                                                             {category.name}
                                                         </SelectItem>
                                                     ))) : (<div> no categories available</div>)}
@@ -144,7 +144,7 @@ export default function AddPartModal({open, onOpenChange}) {
                                                     <div>Error loading suppliers</div>
                                                 ) : suppliers?.length ? (
                                                     suppliers?.map((supplier) => (
-                                                        <SelectItem key={supplier.id} value={supplier.id}>
+                                                        <SelectItem key={supplier._id} value={supplier._id}>
                                                             {supplier.name}
                                                         </SelectItem>
                                                     ))) : (<div>no suppliers available</div>)}

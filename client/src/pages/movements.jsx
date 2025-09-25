@@ -125,11 +125,15 @@ export default function Movements() {
                             <h4 className="text-lg font-semibold text-slate-900 mb-2">No Movements Found</h4>
                             <p className="text-slate-600 mb-4">Stock movements will appear here as you add or remove inventory</p>
                             <div className="flex items-center justify-center space-x-3">
-                                <Button data-testid="button-add-stock-in">
+                                <Button data-testid="button-add-stock-in"
+                               >
+                                    
+                                    
                                     <ArrowUp className="w-4 h-4 mr-2" />
                                     Stock In
                                 </Button>
-                                <Button variant="outline" data-testid="button-add-stock-out">
+                                <Button variant="outline" data-testid="button-add-stock-out"
+                               >
                                     <ArrowDown className="w-4 h-4 mr-2" />
                                     Stock Out
                                 </Button>
