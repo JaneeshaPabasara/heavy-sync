@@ -10,6 +10,7 @@ import Suppliers from "./pages/suppliers.jsx";
 import Movements from "./pages/movements.jsx";
 import NotFound from "./pages/not-found.jsx";
 import Sidebar from "./components/layout/sidebar.jsx";
+import Categories from "./pages/categories.jsx";
 import './App.css'
 
 function Router() {
@@ -20,6 +21,7 @@ function Router() {
                 <Switch>
                     <Route path="/" component={Dashboard}/>
                     <Route path="/inventory" component={Inventory}/>
+                    <Route path="/categories" component={Categories}/>
                     <Route path="/reports" component={Reports}/>
                     <Route path="/suppliers" component={Suppliers}/>
                     <Route path="/movements" component={Movements}/>

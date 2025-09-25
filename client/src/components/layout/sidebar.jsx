@@ -6,13 +6,15 @@ import {
   Building2, 
   ArrowRightLeft, 
   Settings,
-  Truck
+  Truck,
+  Tag
 } from "lucide-react";
 import { cn } from "../../lib/utils.js";
 
 const navigationItems = [
   { path: "/", label: "Dashboard", icon: LayoutDashboard },
   { path: "/inventory", label: "Inventory", icon: Package },
+  { path: "/categories", label: "Categories", icon: Tag },
   { path: "/reports", label: "Reports", icon: FileText },
   { path: "/suppliers", label: "Suppliers", icon: Building2 },
   { path: "/movements", label: "Movements", icon: ArrowRightLeft },
@@ -29,7 +31,7 @@ export default function Sidebar() {
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
             <Truck className="w-5 h-5 text-white" />
           </div>
-          <h1 className="text-xl font-bold text-slate-900">HV Parts Manager</h1>
+          <h1 className="text-xl font-bold text-slate-900">HevySync</h1>
         </div>
       </div>
       

@@ -153,6 +153,33 @@ app.delete("/api/suppliers/:id", async (req, res) => {
             res.status(500).json({message: "Failed to create category"});
         }
     });
+    app.put("/api/categories/:id", async (req, res) => {
+        try {
+            const validatedData = insertCategorySchema.partial().parse(req.body);
+            const category = await storage.updateCategory(req.params.id, validatedData);
+            res.json(category);
+        } catch (error) {
+            if (error instanceof z.ZodError) {
+                return res.status(400).json({message: "Invalid data", errors: error.errors});
+            }
+            if (error.message === "Category not found") {
+                return res.status(404).json({message: "Category not found"});
+            }
+            res.status(500).json({message: "Failed to update category"});
+        }
+    });
+
+    app.delete("/api/categories/:id", async (req, res) => {
+        try {
+            const success = await storage.deleteCategory(req.params.id);
+            if (!success) {
+                return res.status(404).json({message: "Category not found"});
+            }
+            res.status(204).send();
+        } catch (error) {
+            res.status(500).json({message: "Failed to delete category"});
+        }
+    });
 
     // Movements routes
     app.get("/api/movements", async (req, res) => {
