@@ -17,13 +17,13 @@ export function exportToCSV(data, filename) {
     ];
 
     const rows = data.map(part => [
-        part.partNumber,
-        part.name,
+        part.partNumber || '',
+        part.name || '',
         part.description || '',
         part.category?.name || '',
-        part.quantity.toString(),
-        part.minimumStock.toString(),
-        part.unitPrice,
+        part.quantity.toString() || '0',
+        part.minimumStock.toString() || '0',
+        part.unitPrice || '0',
         (part.quantity * parseFloat(part.unitPrice)).toFixed(2),
         part.stockStatus === 'in-stock' ? 'In Stock' :
             part.stockStatus === 'low-stock' ? 'Low Stock' : 'Out of Stock',
@@ -34,8 +34,20 @@ export function exportToCSV(data, filename) {
     ]);
 
     const csvContent = [headers, ...rows]
-        .map(row => row.map(field => `"${field.replace(/"/g, '""')}"`).join(','))
+        .map(row => row.map(field => `"${Stirng(field).replace(/"/g, '""')}"`).join(','))
         .join('\n');
+
+        if (typeof Blob === 'undefined') {
+            console.error('Browser does not support Blob');
+            alert('Your browser does not support file downloads');
+            return false;
+        }
+
+        if (typeof URL.createObjectURL === 'undefined') {
+            console.error('Browser does not support URL.createObjectURL');
+            alert('Your browser does not support file downloads');  
+            return false;
+        }
 
     const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
     const link = document.createElement('a');
@@ -62,7 +74,7 @@ export function exportSupplierAnalysisCSV(data, filename = 'supplier-analysis') 
     ]);
 
     const csvContent = [headers, ...rows]
-        .map(row => row.map(field => `"${field.replace(/"/g, '""')}"`).join(','))
+        .map(row => row.map(field => `"${String(field).replace(/"/g, '""')}"`).join(','))
         .join('\n');
 
     const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
@@ -93,7 +105,7 @@ export function exportStockMovementsCSV(movements, filename = 'stock-movements')
     ]);
 
     const csvContent = [headers, ...rows]
-        .map(row => row.map(field => `"${field.replace(/"/g, '""')}"`).join(','))
+        .map(row => row.map(field => `"${String(field).replace(/"/g, '""')}"`).join(','))
         .join('\n');
 
     const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
@@ -123,7 +135,7 @@ export function exportLowStockCSV(data, filename = 'low-stock-report') {
     ]);
 
     const csvContent = [headers, ...rows]
-        .map(row => row.map(field => `"${field.replace(/"/g, '""')}"`).join(','))
+        .map(row => row.map(field => `"${String(field).replace(/"/g, '""')}"`).join(','))
         .join('\n');
 
     const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
