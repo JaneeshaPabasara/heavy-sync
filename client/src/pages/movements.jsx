@@ -1,3 +1,5 @@
+import { useState } from "react";
+import StockMovementModal from "../components/inventory/stock-movement-modal.jsx";
 import { useQuery } from "@tanstack/react-query";
 import Header from "../components/layout/header.jsx";
 import { Card, CardContent, CardHeader } from "../components/ui/card.jsx";
@@ -7,6 +9,8 @@ import { ArrowUp, ArrowDown, Plus, Package, Calendar } from "lucide-react";
 import { format } from "date-fns";
 
 export default function Movements() {
+    const [showStockInModal, setShowStockInModal] = useState(false);
+    const [showStockOutModal, setShowStockOutModal] = useState(false);
     const { data: movements, isLoading } = useQuery({
         queryKey: ["/api/movements"],
     });
@@ -34,11 +38,13 @@ export default function Movements() {
                 <div className="flex items-center justify-between mb-6">
                     <h3 className="text-lg font-semibold text-slate-900">Recent Movements</h3>
                     <div className="flex items-center space-x-3">
-                        <Button data-testid="button-stock-in-movement">
+                        <Button data-testid="button-stock-in-movement"
+                         onClick={() => setShowStockInModal(true)}>
                             <ArrowUp className="w-4 h-4 mr-2" />
                             Stock In
                         </Button>
-                        <Button variant="outline" data-testid="button-stock-out-movement">
+                        <Button variant="outline" data-testid="button-stock-out-movement"
+                         onClick={() => setShowStockOutModal(true)}>
                             <ArrowDown className="w-4 h-4 mr-2" />
                             Stock Out
                         </Button>
@@ -126,6 +132,7 @@ export default function Movements() {
                             <p className="text-slate-600 mb-4">Stock movements will appear here as you add or remove inventory</p>
                             <div className="flex items-center justify-center space-x-3">
                                 <Button data-testid="button-add-stock-in"
+                                onClick={() => setShowStockInModal(true)}
                                >
                                     
                                     
@@ -133,6 +140,7 @@ export default function Movements() {
                                     Stock In
                                 </Button>
                                 <Button variant="outline" data-testid="button-add-stock-out"
+                                onClick={() => setShowStockOutModal(true)}
                                >
                                     <ArrowDown className="w-4 h-4 mr-2" />
                                     Stock Out
@@ -141,6 +149,17 @@ export default function Movements() {
                         </CardContent>
                     </Card>
                 )}
+                <StockMovementModal
+            open={showStockInModal}
+            onOpenChange={setShowStockInModal}
+            type="in"
+        />
+
+        <StockMovementModal
+            open={showStockOutModal}
+            onOpenChange={setShowStockOutModal}
+            type="out"
+        />
             </div>
         </>
     );

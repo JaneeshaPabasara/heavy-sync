@@ -104,6 +104,33 @@ export async function registerRoutes(app) {
             res.status(500).json({message: "Failed to create supplier"});
         }
     });
+    app.put("/api/suppliers/:id", async (req, res) => {
+    try {
+        const validatedData = insertSupplierSchema.partial().parse(req.body);
+        const supplier = await storage.updateSupplier(req.params.id, validatedData);
+        res.json(supplier);
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            return res.status(400).json({message: "Invalid data", errors: error.errors});
+        }
+        if (error.message === "Supplier not found") {
+            return res.status(404).json({message: "Supplier not found"});
+        }
+        res.status(500).json({message: "Failed to update supplier"});
+    }
+});
+
+app.delete("/api/suppliers/:id", async (req, res) => {
+    try {
+        const success = await storage.deleteSupplier(req.params.id);
+        if (!success) {
+            return res.status(404).json({message: "Supplier not found"});
+        }
+        res.status(204).send();
+    } catch (error) {
+        res.status(500).json({message: "Failed to delete supplier"});
+    }
+});
 
     // Categories routes
     app.get("/api/categories", async (req, res) => {

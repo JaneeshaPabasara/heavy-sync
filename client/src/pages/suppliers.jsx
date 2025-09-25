@@ -13,14 +13,50 @@ import {useToast} from "../hooks/use-toast.js";
 import {queryClient, apiRequest} from "../lib/queryClient.js";
 import {Plus, Building2, Mail, Phone, MapPin, Edit, Trash2} from "lucide-react";
 import {insertSupplierSchema} from "@shared/schema.js";
+import EditSupplierModal from "../components/suppliers/edit-supplier-modal.jsx";
 
 export default function Suppliers() {
     const [showAddModal, setShowAddModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [selectedSupplier, setSelectedSupplier] = useState(null);
     const {toast} = useToast();
 
     const {data: suppliers, isLoading} = useQuery({
         queryKey: ["/api/suppliers"],
     });
+
+const handleEdit = (supplier) => {
+    setSelectedSupplier(supplier);
+    setShowEditModal(true);
+};
+
+const handleDelete = async (supplier) => {
+    if (window.confirm(`Are you sure you want to delete "${supplier.name}"?`)) {
+        try {
+            const response = await fetch(`/api/suppliers/${supplier._id}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete supplier');
+            }
+
+            // Refresh the suppliers list
+            queryClient.invalidateQueries({queryKey: ["/api/suppliers"]});
+            toast({
+                title: "Success", 
+                description: "Supplier deleted successfully"
+            });
+        } catch (error) {
+            console.error('Error deleting supplier:', error);
+            toast({
+                title: "Error", 
+                description: "Failed to delete supplier. Please try again.",
+                variant: "destructive"
+            });
+        }
+    }
+};
 
     const form = useForm({
         resolver: zodResolver(insertSupplierSchema),
@@ -201,10 +237,12 @@ export default function Suppliers() {
                                         </div>
                                         <div className="flex items-center space-x-1">
                                             <Button variant="ghost" size="sm"
+                                            onClick={() => handleEdit(supplier)}
                                                     data-testid={`button-edit-supplier-${supplier._id}`}>
                                                 <Edit className="w-4 h-4"/>
                                             </Button>
                                             <Button variant="ghost" size="sm"
+                                            onClick={() => handleDelete(supplier)}
                                                     data-testid={`button-delete-supplier-${supplier._id}`}>
                                                 <Trash2 className="w-4 h-4"/>
                                             </Button>
@@ -253,6 +291,11 @@ export default function Suppliers() {
                     </Card>
                 )}
             </div>
+            <EditSupplierModal
+    open={showEditModal}
+    onOpenChange={setShowEditModal}
+    supplier={selectedSupplier}
+/>
         </>
     );
 }
