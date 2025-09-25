@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { generatePDF } from "@/lib/pdf-generator";
+import { generatePDF } from "@/lib/pdf-generator.js";
 import { exportToCSV } from "@/lib/csv-exporter";
 import { FileText, Download, Calendar } from "lucide-react";
 import { PartWithDetails } from "@shared/schema";

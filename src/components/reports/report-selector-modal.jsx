@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { FileText, Download, Calendar, BarChart3 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { PartWithDetails } from "@shared/schema";
-import { generateInventoryPDF } from "@/lib/pdf-generator";
+import { generateInventoryPDF } from "@/lib/pdf-generator.js";
 import { exportToCSV } from "@/lib/csv-exporter";
 
 
