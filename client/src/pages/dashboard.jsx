@@ -135,7 +135,7 @@ export default function Dashboard() {
 
     const handleDelete = (part) => {
         if (window.confirm(`Are you sure you want to delete "${part.name}"?`)) {
-            deleteMutation.mutate(part.id);
+            deleteMutation.mutate(part._id);
         }
     };
 
@@ -283,7 +283,7 @@ export default function Dashboard() {
                                                     ? 'bg-red-50 border-red-200'
                                                     : 'bg-amber-50 border-amber-200'
                                             }`}
-                                            data-testid={`alert-part-${part.id}`}
+                                            data-testid={`alert-part-${part._id}`}
                                         >
                                             <div className="flex items-center space-x-4">
                                                 <div
@@ -300,11 +300,11 @@ export default function Dashboard() {
                                                 </div>
                                                 <div>
                                                     <p className="font-medium text-slate-900"
-                                                       data-testid={`text-part-name-${part.id}`}>
+                                                       data-testid={`text-part-name-${part._id}`}>
                                                         {part.name}
                                                     </p>
                                                     <p className="text-sm text-slate-600"
-                                                       data-testid={`text-part-number-${part.id}`}>
+                                                       data-testid={`text-part-number-${part._id}`}>
                                                         Part #{part.partNumber}
                                                     </p>
                                                 </div>
@@ -314,7 +314,7 @@ export default function Dashboard() {
                                                     part.stockStatus === 'out-of-stock'
                                                         ? 'text-red-600'
                                                         : 'text-amber-600'
-                                                }`} data-testid={`text-quantity-${part.id}`}>
+                                                }`} data-testid={`text-quantity-${part._id}`}>
                                                     {part.quantity} units left
                                                 </p>
                                                 <p className="text-xs text-slate-600">Min: {part.minimumStock} units</p>
@@ -420,46 +420,46 @@ export default function Dashboard() {
                                 <tbody>
                                 {recentParts?.slice(0, 5).map((part) => (
                                     <tr key={part.id} className="border-b border-slate-100 table-row"
-                                        data-testid={`row-part-${part.id}`}>
+                                        data-testid={`row-part-${part._id}`}>
                                         <td className="py-4 px-6">
                                             <p className="font-mono text-slate-900 font-medium"
-                                               data-testid={`text-part-number-${part.id}`}>
+                                               data-testid={`text-part-number-${part._id}`}>
                                                 {part.partNumber}
                                             </p>
                                         </td>
                                         <td className="py-4 px-6">
                                             <p className="font-medium text-slate-900"
-                                               data-testid={`text-part-name-${part.id}`}>
+                                               data-testid={`text-part-name-${part._id}`}>
                                                 {part.name}
                                             </p>
                                         </td>
                                         <td className="py-4 px-6">
-                                            <Badge variant="secondary" data-testid={`badge-category-${part.id}`}>
+                                            <Badge variant="secondary" data-testid={`badge-category-${part._id}`}>
                                                 {part.category?.name || 'Uncategorized'}
                                             </Badge>
                                         </td>
                                         <td className="py-4 px-6">
                                             <div>
                                                 <p className="font-medium text-slate-900"
-                                                   data-testid={`text-quantity-${part.id}`}>
+                                                   data-testid={`text-quantity-${part._id}`}>
                                                     {part.quantity} units
                                                 </p>
                                                 <p className="text-sm text-slate-600">Min: {part.minimumStock}</p>
                                             </div>
                                         </td>
                                         <td className="py-4 px-6">
-                                            <p className="text-slate-900" data-testid={`text-location-${part.id}`}>
+                                            <p className="text-slate-900" data-testid={`text-location-${part._id}`}>
                                                 {part.location || 'Not set'}
                                             </p>
                                         </td>
                                         <td className="py-4 px-6">
-                                            <p className="text-slate-900" data-testid={`text-supplier-${part.id}`}>
+                                            <p className="text-slate-900" data-testid={`text-supplier-${part._id}`}>
                                                 {part.supplier?.name || 'Not assigned'}
                                             </p>
                                         </td>
                                         <td className="py-4 px-6">
                                             <Badge variant={getStockBadgeVariant(part.stockStatus)}
-                                                   data-testid={`badge-status-${part.id}`}>
+                                                   data-testid={`badge-status-${part._id}`}>
                                                 {getStockBadgeText(part.stockStatus)}
                                             </Badge>
                                         </td>
@@ -470,7 +470,7 @@ export default function Dashboard() {
                                                     size="sm"
                                                     onClick={() => handleEdit(part)}
                                                     className="hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                                                    data-testid={`button-edit-${part.id}`}
+                                                    data-testid={`button-edit-${part._id}`}
                                                 >
                                                     <Edit className="w-4 h-4"/>
                                                 </Button>
@@ -480,7 +480,7 @@ export default function Dashboard() {
                                                     onClick={() => handleDelete(part)}
                                                     className="hover:bg-red-50 hover:text-red-600 transition-colors"
                                                     disabled={deleteMutation.isPending}
-                                                    data-testid={`button-delete-${part.id}`}
+                                                    data-testid={`button-delete-${part._id}`}
                                                 >
                                                     <Trash2 className="w-4 h-4"/>
                                                 </Button>

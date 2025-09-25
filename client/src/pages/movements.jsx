@@ -72,7 +72,7 @@ export default function Movements() {
                                         <div
                                             key={movement.id}
                                             className="p-6 hover:bg-slate-50 transition-colors"
-                                            data-testid={`row-movement-${movement.id}`}
+                                            data-testid={`row-movement-${movement._id}`}
                                         >
                                             <div className="flex items-center justify-between">
                                                 <div className="flex items-center space-x-4">
@@ -81,33 +81,33 @@ export default function Movements() {
                                                     </div>
                                                     <div>
                                                         <div className="flex items-center space-x-2 mb-1">
-                                                            <h4 className="font-medium text-slate-900" data-testid={`text-movement-part-${movement.id}`}>
+                                                            <h4 className="font-medium text-slate-900" data-testid={`text-movement-part-${movement._id}`}>
                                                                 {movement.part.name}
                                                             </h4>
-                                                            <Badge variant="outline" data-testid={`badge-movement-type-${movement.id}`}>
+                                                            <Badge variant="outline" data-testid={`badge-movement-type-${movement._id}`}>
                                                                 {movement.type === 'in' ? 'Stock In' : 'Stock Out'}
                                                             </Badge>
                                                         </div>
                                                         <div className="flex items-center space-x-4 text-sm text-slate-600">
-                              <span data-testid={`text-movement-part-number-${movement.id}`}>
+                              <span data-testid={`text-movement-part-number-${movement._id}`}>
                                 Part #{movement.part.partNumber}
                               </span>
                                                             <div className="flex items-center space-x-1">
                                                                 <Calendar className="w-3 h-3" />
-                                                                <span data-testid={`text-movement-date-${movement.id}`}>
+                                                                <span data-testid={`text-movement-date-${movement._id}`}>
                                   {movement.createdAt ? format(new Date(movement.createdAt), 'MMM dd, yyyy HH:mm') : 'N/A'}
                                 </span>
                                                             </div>
                                                         </div>
                                                         {movement.reason && (
-                                                            <p className="text-sm text-slate-600 mt-1" data-testid={`text-movement-reason-${movement.id}`}>
+                                                            <p className="text-sm text-slate-600 mt-1" data-testid={`text-movement-reason-${movement._id}`}>
                                                                 {movement.reason}
                                                             </p>
                                                         )}
                                                     </div>
                                                 </div>
                                                 <div className="text-right">
-                                                    <div className={`text-lg font-semibold ${getMovementColor(movement.type)}`} data-testid={`text-movement-quantity-${movement.id}`}>
+                                                    <div className={`text-lg font-semibold ${getMovementColor(movement.type)}`} data-testid={`text-movement-quantity-${movement._id}`}>
                                                         {movement.type === 'in' ? '+' : '-'}{movement.quantity} units
                                                     </div>
                                                 </div>

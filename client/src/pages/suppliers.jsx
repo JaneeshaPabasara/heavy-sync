@@ -183,8 +183,8 @@ export default function Suppliers() {
                 ) : suppliers && suppliers.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {suppliers.map((supplier) => (
-                            <Card key={supplier.id} className="hover:shadow-md transition-shadow"
-                                  data-testid={`card-supplier-${supplier.id}`}>
+                            <Card key={supplier._id} className="hover:shadow-md transition-shadow"
+                                  data-testid={`card-supplier-${supplier._id}`}>
                                 <CardHeader>
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center space-x-3">
@@ -194,18 +194,18 @@ export default function Suppliers() {
                                             </div>
                                             <div>
                                                 <h4 className="text-lg font-semibold text-slate-900"
-                                                    data-testid={`text-supplier-name-${supplier.id}`}>
+                                                    data-testid={`text-supplier-name-${supplier._id}`}>
                                                     {supplier.name}
                                                 </h4>
                                             </div>
                                         </div>
                                         <div className="flex items-center space-x-1">
                                             <Button variant="ghost" size="sm"
-                                                    data-testid={`button-edit-supplier-${supplier.id}`}>
+                                                    data-testid={`button-edit-supplier-${supplier._id}`}>
                                                 <Edit className="w-4 h-4"/>
                                             </Button>
                                             <Button variant="ghost" size="sm"
-                                                    data-testid={`button-delete-supplier-${supplier.id}`}>
+                                                    data-testid={`button-delete-supplier-${supplier._id}`}>
                                                 <Trash2 className="w-4 h-4"/>
                                             </Button>
                                         </div>
@@ -217,21 +217,21 @@ export default function Suppliers() {
                                             <div className="flex items-center space-x-2 text-sm text-slate-600">
                                                 <Mail className="w-4 h-4"/>
                                                 <span
-                                                    data-testid={`text-supplier-email-${supplier.id}`}>{supplier.contactEmail}</span>
+                                                    data-testid={`text-supplier-email-${supplier._id}`}>{supplier.contactEmail}</span>
                                             </div>
                                         )}
                                         {supplier.contactPhone && (
                                             <div className="flex items-center space-x-2 text-sm text-slate-600">
                                                 <Phone className="w-4 h-4"/>
                                                 <span
-                                                    data-testid={`text-supplier-phone-${supplier.id}`}>{supplier.contactPhone}</span>
+                                                    data-testid={`text-supplier-phone-${supplier._id}`}>{supplier.contactPhone}</span>
                                             </div>
                                         )}
                                         {supplier.address && (
                                             <div className="flex items-center space-x-2 text-sm text-slate-600">
                                                 <MapPin className="w-4 h-4"/>
                                                 <span
-                                                    data-testid={`text-supplier-address-${supplier.id}`}>{supplier.address}</span>
+                                                    data-testid={`text-supplier-address-${supplier._id}`}>{supplier.address}</span>
                                             </div>
                                         )}
                                     </div>

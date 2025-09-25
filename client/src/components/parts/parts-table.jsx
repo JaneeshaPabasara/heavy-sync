@@ -155,42 +155,42 @@ export default function PartsTable({ parts, isLoading, onEdit, onDelete }) {
             </thead>
             <tbody>
               {filteredParts.map((part) => (
-                <tr key={part.id} className="border-b border-slate-100 table-row" data-testid={`row-part-${part.id}`}>
+                <tr key={part._id} className="border-b border-slate-100 table-row" data-testid={`row-part-${part._id}`}>
                   <td className="py-4 px-6">
-                    <p className="font-mono text-slate-900 font-medium" data-testid={`text-part-number-${part.id}`}>
+                    <p className="font-mono text-slate-900 font-medium" data-testid={`text-part-number-${part._id}`}>
                       {part.partNumber}
                     </p>
                   </td>
                   <td className="py-4 px-6">
-                    <p className="font-medium text-slate-900" data-testid={`text-part-name-${part.id}`}>
+                    <p className="font-medium text-slate-900" data-testid={`text-part-name-${part._id}`}>
                       {part.name}
                     </p>
                   </td>
                   <td className="py-4 px-6">
-                    <Badge variant="secondary" data-testid={`badge-category-${part.id}`}>
+                    <Badge variant="secondary" data-testid={`badge-category-${part._id}`}>
                       {part.category?.name || 'Uncategorized'}
                     </Badge>
                   </td>
                   <td className="py-4 px-6">
                     <div>
-                      <p className="font-medium text-slate-900" data-testid={`text-quantity-${part.id}`}>
+                      <p className="font-medium text-slate-900" data-testid={`text-quantity-${part._id}`}>
                         {part.quantity} units
                       </p>
                       <p className="text-sm text-slate-600">Min: {part.minimumStock}</p>
                     </div>
                   </td>
                   <td className="py-4 px-6">
-                    <p className="text-slate-900" data-testid={`text-location-${part.id}`}>
+                    <p className="text-slate-900" data-testid={`text-location-${part._id}`}>
                       {part.location || 'Not set'}
                     </p>
                   </td>
                   <td className="py-4 px-6">
-                    <p className="text-slate-900" data-testid={`text-supplier-${part.id}`}>
+                    <p className="text-slate-900" data-testid={`text-supplier-${part._id}`}>
                       {part.supplier?.name || 'Not assigned'}
                     </p>
                   </td>
                   <td className="py-4 px-6">
-                    <Badge variant={getStockBadgeVariant(part.stockStatus)} data-testid={`badge-status-${part.id}`}>
+                    <Badge variant={getStockBadgeVariant(part.stockStatus)} data-testid={`badge-status-${part._id}`}>
                       {getStockBadgeText(part.stockStatus)}
                     </Badge>
                   </td>
@@ -201,7 +201,7 @@ export default function PartsTable({ parts, isLoading, onEdit, onDelete }) {
                         size="sm" 
                         onClick={() => onEdit(part)}
                         className="hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                        data-testid={`button-edit-${part.id}`}
+                        data-testid={`button-edit-${part._id}`}
                       >
                         <Edit className="w-4 h-4" />
                       </Button>
@@ -211,7 +211,7 @@ export default function PartsTable({ parts, isLoading, onEdit, onDelete }) {
                           size="sm" 
                           onClick={() => onDelete(part)}
                           className="hover:bg-red-50 hover:text-red-600 transition-colors"
-                          data-testid={`button-delete-${part.id}`}
+                          data-testid={`button-delete-${part._id}`}
                         >
                           <Trash2 className="w-4 h-4" />
                         </Button>

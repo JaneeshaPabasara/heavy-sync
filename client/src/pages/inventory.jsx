@@ -7,6 +7,7 @@ import EditPartModal from "../components/parts/edit-part-modal.jsx";
 import {Button} from "../components/ui/button.jsx";
 import {Plus} from "lucide-react";
 
+
 export default function Inventory() {
     const [showAddModal, setShowAddModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
@@ -23,7 +24,7 @@ export default function Inventory() {
     const handleDelete = async (part) => {
         if (window.confirm(`Are you sure you want to delete "${part.name}"?`)) {
             try {
-                const response = await fetch(`/api/parts/${part.id}`, {
+                const response = await fetch(`/api/parts/${part._id}`, {
                     method: 'DELETE',
                 });
 

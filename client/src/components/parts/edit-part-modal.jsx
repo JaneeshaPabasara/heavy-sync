@@ -58,8 +58,8 @@ export default function EditPartModal({open, onOpenChange, part}) {
 
     const updateMutation = useMutation({
         mutationFn: async (data) => {
-            if (!part?.id) throw new Error("No part ID");
-            const response = await apiRequest("PUT", `/api/parts/${part.id}`, data);
+            if (!part?._id) throw new Error("No part ID");
+            const response = await apiRequest("PUT", `/api/parts/${part._id}`, data);
             return response.json();
         },
         onSuccess: () => {
