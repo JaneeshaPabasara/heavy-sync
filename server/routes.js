@@ -23,14 +23,13 @@ export async function registerRoutes(app) {
         }
     });
 
-    app.get("/api/parts/low-stock", async (req, res) => {
-        try {
-            const parts = await storage.getLowStockParts();
-            res.json(parts);
-        } catch (error) {
-            res.status(500).json({message: "Failed to fetch low stock parts"});
-        }
-    });
+  app.get('/api/parts/low-stock', async (req, res) => {
+    const parts = await storage.getParts();
+    const lowStockParts = parts.filter(part => 
+        part.quantity <= part.minimumStock
+    );
+    res.json(lowStockParts);
+});
 
     app.get("/api/parts/:id", async (req, res) => {
         try {
