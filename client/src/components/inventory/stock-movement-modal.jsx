@@ -92,7 +92,7 @@ export default function StockMovementModal({ open, onOpenChange, type }) {
     });
   };
 
-  const selectedPart = parts.find(p => p.id === selectedPartId);
+  const selectedPart = parts.find(p => p._id === selectedPartId);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

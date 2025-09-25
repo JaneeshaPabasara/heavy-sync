@@ -210,7 +210,16 @@ export class DatabaseStorage {
             await part.save();
         }
 
-        return savedMovement;
+           // Return the movement with populated part data
+    return await MovementModel.findById(savedMovement._id)
+        .populate({
+            path: 'partId',
+            populate: [
+                {path: 'categoryId', select: 'name description'},
+                {path: 'supplierId', select: 'name contactEmail contactPhone'}
+            ]
+        })
+        .lean();
     }
 
     // Stats
@@ -443,6 +452,15 @@ class MemoryStorage {
     async createMovement(movement) {
         const newMovement = {_id: Date.now().toString(), ...movement, partId: movement.partId};
         this.movements.set(newMovement._id, newMovement);
+         const part = this.parts.get(movement.partId.toString());
+    if (part) {
+        const quantityChange = movement.type === 'in' 
+            ? movement.quantity 
+            : -movement.quantity;
+        
+        part.quantity = Math.max(0, part.quantity + quantityChange);
+        this.parts.set(part._id, part);
+    }
         return newMovement;
     }
 
