@@ -1,77 +1,92 @@
-import {sql} from "drizzle-orm";
-import {pgTable, text, varchar, integer, decimal, timestamp} from "drizzle-orm/pg-core";
-import {createInsertSchema} from "drizzle-zod";
+import mongoose, {Schema} from 'mongoose';
+import {z} from "zod";
 
-export const suppliers = pgTable("suppliers", {
-    id: varchar("id").primaryKey().default(sql`gen_random_uuid
-        ()`),
-    name: text("name").notNull(),
-    contactEmail: text("contact_email"),
-    contactPhone: text("contact_phone"),
-    address: text("address"),
+// Supplier Schema
+const supplierSchema = new Schema({
+    name: {type: String, required: true},
+    contactEmail: {type: String},
+    contactPhone: {type: String},
+    address: {type: String}
+}, {timestamps: true});
+
+export const SupplierModel = mongoose.model('Supplier', supplierSchema);
+
+// Category Schema
+const categorySchema = new Schema({
+    name: {type: String, required: true, unique: true},
+    description: {type: String}
+}, {timestamps: true});
+
+export const CategoryModel = mongoose.model('Category', categorySchema);
+
+// Part Schema
+const partSchema = new Schema({
+    name: {type: String, required: true},
+    partNumber: {type: String, required: true, unique: true},
+    description: {type: String},
+    categoryId: {type: Schema.Types.ObjectId, ref: 'Category'},
+    supplierId: {type: Schema.Types.ObjectId, ref: 'Supplier'},
+    quantity: {type: Number, required: true, default: 0},
+    minimumStock: {type: Number, required: true, default: 0},
+    unitPrice: {type: Number, required: true, default: 0},
+    location: {type: String}
+}, {timestamps: true});
+
+export const PartModel = mongoose.model('Part', partSchema);
+
+// Movement Schema
+const movementSchema = new Schema({
+    partId: {type: Schema.Types.ObjectId, ref: 'Part', required: true},
+    type: {type: String, enum: ['in', 'out'], required: true},
+    quantity: {type: Number, required: true},
+    reason: {type: String}
+}, {timestamps: true});
+
+export const MovementModel = mongoose.model('Movement', movementSchema);
+
+// Report Schema
+const reportSchema = new Schema({
+    name: {type: String, required: true},
+    type: {type: String, enum: ['inventory', 'low-stock', 'movements', 'supplier-analysis'], required: true},
+    dateRange: {type: String, required: true}
+}, {timestamps: true});
+
+export const ReportModel = mongoose.model('Report', reportSchema);
+
+// Validation schemas using Zod
+export const insertSupplierSchema = z.object({
+    name: z.string(),
+    contactEmail: z.string().email().optional(),
+    contactPhone: z.string().optional(),
+    address: z.string().optional()
 });
 
-export const categories = pgTable("categories", {
-    id: varchar("id").primaryKey().default(sql`gen_random_uuid
-        ()`),
-    name: text("name").notNull().unique(),
-    description: text("description"),
+export const insertCategorySchema = z.object({
+    name: z.string(),
+    description: z.string().optional()
 });
 
-export const parts = pgTable("parts", {
-    id: varchar("id").primaryKey().default(sql`gen_random_uuid
-        ()`),
-    name: text("name").notNull(),
-    partNumber: text("part_number").notNull().unique(),
-    description: text("description"),
-    categoryId: varchar("category_id").references(() => categories.id),
-    supplierId: varchar("supplier_id").references(() => suppliers.id),
-    quantity: integer("quantity").notNull().default(0),
-    minimumStock: integer("minimum_stock").notNull().default(0),
-    unitPrice: decimal("unit_price", {precision: 10, scale: 2}).notNull().default("0.00"),
-    location: text("location"),
-    createdAt: timestamp("created_at").default(sql`now
-        ()`),
-    updatedAt: timestamp("updated_at").default(sql`now
-        ()`),
+export const insertPartSchema = z.object({
+    name: z.string(),
+    partNumber: z.string(),
+    description: z.string().optional(),
+    categoryId: z.string().optional(),
+    supplierId: z.string().optional(),
+    quantity: z.number().default(0),
+    minimumStock: z.number().default(0),
+    unitPrice: z.number().default(0),
+    location: z.string().optional()
 });
 
-export const movements = pgTable("movements", {
-    id: varchar("id").primaryKey().default(sql`gen_random_uuid
-        ()`),
-    partId: varchar("part_id").notNull().references(() => parts.id),
-    type: text("type").notNull(), // 'in' | 'out'
-    quantity: integer("quantity").notNull(),
-    reason: text("reason"),
-    createdAt: timestamp("created_at").default(sql`now
-        ()`),
+export const insertMovementSchema = z.object({
+    partId: z.string(),
+    type: z.enum(['in', 'out']),
+    quantity: z.number(),
+    reason: z.string().optional()
 });
 
-export const insertSupplierSchema = createInsertSchema(suppliers).omit({
-    id: true,
+export const insertReportSchema = z.object({
+    name: z.string(),
+    type: z.enum(['inventory', 'low-stock', 'movements', 'supplier-analysis']),
+    dateRange: z.string()
 });
-
-export const insertCategorySchema = createInsertSchema(categories).omit({
-    id: true,
-});
-
-export const insertPartSchema = createInsertSchema(parts).omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-});
-
-export const insertMovementSchema = createInsertSchema(movements).omit({
-    id: true,
-    createdAt: true,
-});
-// Reports schema for tracking generated reports
-export const reports = pgTable('reports', {
-    id: text('id').primaryKey(),
-    name: text('name').notNull(),
-    type: text('type').notNull(), // 'inventory', 'low-stock', 'movements', 'supplier-analysis'
-    dateRange: text('date_range').notNull(), // JSON string with from/to dates
-    createdAt: timestamp('created_at').defaultNow().notNull(),
-});
-
-export const insertReportSchema = createInsertSchema(reports).omit({id: true, createdAt: true});
