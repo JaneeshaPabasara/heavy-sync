@@ -4,7 +4,7 @@ if (!process.env.MONGODB_URI) {
     throw new Error("MONGODB_URI must be set. Did you forget to provision MongoDB?");
 }
 
-// MongoDB connection with improved error handling
+// MongoDB connection
 export const connectDB = async () => {
     try {
         const conn = await mongoose.connect(process.env.MONGODB_URI, {
@@ -17,7 +17,7 @@ export const connectDB = async () => {
     } catch (error) {
         console.error('MongoDB connection error:', error);
         console.log('Note: MongoDB Atlas may require IP whitelisting. Continuing with fallback...');
-        // Don't exit the process, let the application continue with fallback storage
+      
         throw error;
     }
 };
