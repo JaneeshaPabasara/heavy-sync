@@ -1,4 +1,4 @@
-// client/src/pages/categories.jsx
+
 import {useQuery, useMutation} from "@tanstack/react-query";
 import {useState} from "react";
 import Header from "../components/layout/header.jsx";

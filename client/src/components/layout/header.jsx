@@ -19,7 +19,7 @@ export default function Header({ title, description }) {
             <div className="w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center">
               <User className="w-4 h-4 text-slate-600" />
             </div>
-            <span className="text-sm font-medium text-slate-900" data-testid="text-username">John Manager</span>
+            <span className="text-sm font-medium text-slate-900" data-testid="text-username">Manager</span>
           </div>
         </div>
       </div>

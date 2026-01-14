@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-    // Try to connect to MongoDB
+    // try connect to db
     try {
         await connectDB();
         log("Using MongoDB storage");
@@ -49,9 +49,7 @@ app.use((req, res, next) => {
 
     const server = await registerRoutes(app);
 
-    // importantly only setup vite in development and after
-    // setting up all the other routes so the catch-all route
-    // doesn't interfere with the other routes
+    
     if (app.get("env") === "development") {
         await setupVite(app, server);
     } else {
@@ -67,7 +65,7 @@ app.use((req, res, next) => {
         throw err;
     });
 
-    // Use port 5000 to match vite.config.js
+    // Use port 5000 to match vite config
     const port = parseInt(process.env.PORT || '5000', 10);
     server.listen(port, "0.0.0.0", () => {
         log(`serving on port ${port}`);
